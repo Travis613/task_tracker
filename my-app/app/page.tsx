@@ -3,7 +3,8 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { Send, Eraser } from "lucide-react";
+import { Send, Eraser, Delete, PencilLine } from "lucide-react";
+import { tasks } from "@/data";
 
 export default function Home() {
   const [input, setInput] = useState("");
@@ -11,7 +12,6 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-300">
       <main className="flex flex-col h-screen">
-        {/* Top Controls */}
         <section className="flex flex-col sm:flex-row gap-3 p-4 justify-center">
           <Input
             placeholder="Please input a task"
@@ -21,11 +21,7 @@ export default function Home() {
             required
           />
 
-          <Button
-            variant="outline"
-            onClick={() => console.log(input)}
-            className="h-14"
-          >
+          <Button variant="outline" className="h-14">
             Add Task <Send className="ml-2 h-4 w-4" />
           </Button>
 
@@ -41,10 +37,27 @@ export default function Home() {
         <section className="flex-1 p-4">
           <div className="flex flex-col lg:flex-row gap-6 h-full max-w-7xl mx-auto">
             <div className="flex-1 bg-green-200 rounded-2xl shadow-md p-6 min-h-[300px]">
-              <h2 className="text-2xl font-bold mb-4">To Do</h2>
+              <h2 className="text-2xl font-bold mb-4">Tasks</h2>
+              <ul>
+                {tasks.map((task) => (
+                  <li
+                    key={task.id}
+                    className="flex flex-row items-center gap-4 text-3xl"
+                  >
+                    {task.title}
+                    <Button variant="outline">
+                      <Delete />
+                    </Button>
+                    <Button variant="outline">
+                      <PencilLine />
+                    </Button>
+                  </li>
+                ))}
+              </ul>
             </div>
             <div className="flex-1 bg-red-200 rounded-2xl shadow-md p-6 min-h-[300px]">
               <h2 className="text-2xl font-bold mb-4">Completed</h2>
+              <ul></ul>
             </div>
           </div>
         </section>
