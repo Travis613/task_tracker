@@ -66,7 +66,16 @@ export default function Home() {
                 <h2>Completed:</h2>
                 <h2>{`${completedTasks}/20`}</h2>
               </div>
-              <ul></ul>
+              <ul>
+                {finishedTasks.map((task) => (
+                  <li
+                    key={task.id}
+                    className="flex flex-row items-center gap-4 text-3xl"
+                  >
+                    {task.title}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </section>
