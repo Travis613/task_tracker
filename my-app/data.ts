@@ -3,8 +3,14 @@ interface Task {
   title: string;
 }
 
-export const tasks: Task[] = [
-  { id: 1, title: "go to the gym" },
-  { id: 2, title: "walk the dog" },
-  { id: 3, title: "practice programming" },
-];
+export let tasks: Task[] = [];
+
+export let finishedTasks: Task[] = [];
+
+export function countTasks(array: Task[]) {
+  let counter = 0;
+  for (let x = 0; x < array.length; x++) {
+    counter++;
+  }
+  return counter;
+}

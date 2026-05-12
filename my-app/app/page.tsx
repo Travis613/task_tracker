@@ -4,10 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Send, Eraser, Delete, PencilLine } from "lucide-react";
-import { tasks } from "@/data";
+import { countTasks, tasks, finishedTasks } from "@/data";
 
 export default function Home() {
   const [input, setInput] = useState("");
+
+  const currentTasks = countTasks(tasks);
+  const completedTasks = countTasks(finishedTasks);
 
   return (
     <div className="min-h-screen bg-gray-300">
@@ -36,8 +39,11 @@ export default function Home() {
 
         <section className="flex-1 p-4">
           <div className="flex flex-col lg:flex-row gap-6 h-full max-w-7xl mx-auto">
-            <div className="flex-1 bg-green-200 rounded-2xl shadow-md p-6 min-h-[300px]">
-              <h2 className="text-2xl font-bold mb-4">Tasks</h2>
+            <div className="flex-1 bg-green-200 rounded-2xl shadow-md p-6 min-h-[75]">
+              <div className="flex flex-row text-2xl font-bold mb-4 gap-2">
+                <h2>Tasks:</h2>
+                <h2>{`${currentTasks}/10`}</h2>
+              </div>
               <ul>
                 {tasks.map((task) => (
                   <li
@@ -55,8 +61,11 @@ export default function Home() {
                 ))}
               </ul>
             </div>
-            <div className="flex-1 bg-red-200 rounded-2xl shadow-md p-6 min-h-[300px]">
-              <h2 className="text-2xl font-bold mb-4">Completed</h2>
+            <div className="flex-1 bg-red-200 rounded-2xl shadow-md p-6 min-h-[75]">
+              <div className="flex flex-row text-2xl font-bold mb-4 gap-2">
+                <h2>Completed:</h2>
+                <h2>{`${completedTasks}/20`}</h2>
+              </div>
               <ul></ul>
             </div>
           </div>
