@@ -4,13 +4,20 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Send, Eraser, Delete, PencilLine } from "lucide-react";
-import { tasks, finishedTasks } from "@/data";
 import Link from "next/link";
+
+interface Task {
+  id: number;
+  title: string;
+}
 
 export default function Home() {
   const [input, setInput] = useState("");
-  const currentTasks = tasks.length;
-  const completedTasks = finishedTasks.length;
+  const [activeTasks, setCurrentTasks] = useState<Task[]>([]);
+  const [deletedTasks, setDeletedTasks] = useState<Task[]>([]);
+
+  const amountOfCurrentTasks = activeTasks.length;
+  const amountOfCompletedTasks = deletedTasks.length;
 
   return (
     <div className="min-h-screen bg-gray-300">
@@ -44,10 +51,10 @@ export default function Home() {
             <div className="flex-1 bg-green-200 rounded-2xl shadow-md p-6 min-h-[75]">
               <div className="flex flex-row text-2xl font-bold mb-4 gap-2">
                 <h2>Tasks:</h2>
-                <h2>{`${currentTasks}/10`}</h2>
+                <h2>{`${amountOfCurrentTasks}/10`}</h2>
               </div>
               <ul>
-                {tasks.map((task) => (
+                {activeTasks.map((task) => (
                   <li
                     key={task.id}
                     className="flex flex-row items-center gap-4 text-3xl"
@@ -70,10 +77,10 @@ export default function Home() {
             <div className="flex-1 bg-red-200 rounded-2xl shadow-md p-6 min-h-[75]">
               <div className="flex flex-row text-2xl font-bold mb-4 gap-2">
                 <h2>Completed:</h2>
-                <h2>{`${completedTasks}/10`}</h2>
+                <h2>{`${amountOfCompletedTasks}/10`}</h2>
               </div>
               <ul>
-                {finishedTasks.map((task) => (
+                {deletedTasks.map((task) => (
                   <li
                     key={task.id}
                     className="flex flex-row items-center gap-4 text-3xl"
