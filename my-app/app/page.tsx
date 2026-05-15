@@ -13,7 +13,9 @@ interface Task {
 
 export default function Home() {
   const [input, setInput] = useState("");
-  const [activeTasks, setCurrentTasks] = useState<Task[]>([]);
+  const [activeTasks, setActiveTasks] = useState<Task[]>([
+    { id: 0, title: "go to the gym" },
+  ]);
   const [deletedTasks, setDeletedTasks] = useState<Task[]>([]);
 
   const amountOfCurrentTasks = activeTasks.length;
@@ -32,8 +34,19 @@ export default function Home() {
             required
           />
 
-          <Button variant="outline" className="h-14">
-            Add Task <Send className="ml-2 h-4 w-4" />
+          <Button
+            variant="outline"
+            className="h-14"
+            onClick={() => {
+              setActiveTasks([
+                ...activeTasks,
+                { id: Date.now(), title: input },
+              ]);
+              setInput("");
+            }}
+          >
+            Add Task
+            <Send className="ml-2 h-4 w-4" />
           </Button>
 
           <Button
