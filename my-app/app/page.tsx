@@ -13,9 +13,7 @@ interface Task {
 
 export default function Home() {
   const [input, setInput] = useState("");
-  const [activeTasks, setActiveTasks] = useState<Task[]>([
-    { id: 0, title: "go to the gym" },
-  ]);
+  const [activeTasks, setActiveTasks] = useState<Task[]>([]);
   const [deletedTasks, setDeletedTasks] = useState<Task[]>([]);
 
   const amountOfCurrentTasks = activeTasks.length;
@@ -73,7 +71,26 @@ export default function Home() {
                     className="flex flex-row items-center gap-4 text-3xl"
                   >
                     {task.title}
-                    <Button variant="outline">
+                    <Button
+                      variant="outline"
+                      onClick={() => {
+                        setActiveTasks(
+                          activeTasks.filter(
+                            (clickedTask) => clickedTask.id !== task.id,
+                          ),
+                        );
+                        const removedTask = activeTasks.filter(
+                          (clickedTask) => clickedTask.id === task.id,
+                        );
+                        setDeletedTasks([
+                          ...deletedTasks,
+                          {
+                            id: removedTask[0].id,
+                            title: removedTask[0].title,
+                          },
+                        ]);
+                      }}
+                    >
                       <Delete />
                     </Button>
                     <Button variant="outline">
