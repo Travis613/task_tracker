@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  Alert,
-  AlertAction,
-  AlertDescription,
-  AlertTitle,
-} from "@/components/ui/alert";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useState } from "react";
 import { Send, Eraser, Delete, PencilLine, InfoIcon } from "lucide-react";
 import Link from "next/link";
@@ -21,27 +16,15 @@ export default function Home() {
   const [alertVisability, setAlertVisability] = useState("hidden");
   const [alertMessage, setAlertMessage] = useState("");
   const [input, setInput] = useState("");
-  const [activeTasks, setActiveTasks] = useState<Task[]>([
-    { id: 1, title: "Go to work" },
-    { id: 2, title: "Go to work" },
-    { id: 3, title: "Go to work" },
-    { id: 4, title: "Go to work" },
-    { id: 5, title: "Go to work" },
-    { id: 6, title: "Go to work" },
-    { id: 7, title: "Go to work" },
-    { id: 8, title: "Go to work" },
-    { id: 9, title: "Go to work" },
-    { id: 10, title: "Go to work" },
-  ]);
+  const [activeTasks, setActiveTasks] = useState<Task[]>([]);
   const [deletedTasks, setDeletedTasks] = useState<Task[]>([]);
-
-  const amountOfCurrentTasks = activeTasks.length;
-  const amountOfCompletedTasks = deletedTasks.length;
+  const [amountOfCurrentTasks, setAmountOfCurrentTasks] = useState(0);
 
   function addTask() {
     if (amountOfCurrentTasks < 10) {
       setActiveTasks([...activeTasks, { id: Date.now(), title: input }]);
       setInput("");
+      setAmountOfCurrentTasks(amountOfCurrentTasks + 1);
     } else {
       setAlertMessage(
         "You can only have 10 active tasks at one time, delete a task before retrying to add another",
@@ -107,21 +90,31 @@ export default function Home() {
                     <Button
                       variant="outline"
                       onClick={() => {
-                        setActiveTasks(
-                          activeTasks.filter(
+                        setActiveTasks((prev) =>
+                          prev.filter(
                             (clickedTask) => clickedTask.id !== task.id,
                           ),
                         );
-                        const removedTask = activeTasks.filter(
+
+                        setAmountOfCurrentTasks((prev) => prev - 1);
+
+                        const removedTask = activeTasks.find(
                           (clickedTask) => clickedTask.id === task.id,
                         );
-                        setDeletedTasks([
-                          ...deletedTasks,
-                          {
-                            id: removedTask[0].id,
-                            title: removedTask[0].title,
-                          },
-                        ]);
+
+                        if (removedTask) {
+                          setDeletedTasks((prev) => {
+                            const updated = [
+                              {
+                                id: removedTask.id,
+                                title: removedTask.title,
+                              },
+                              ...prev,
+                            ];
+
+                            return updated.slice(0, 10);
+                          });
+                        }
                       }}
                     >
                       <Delete />
@@ -139,8 +132,7 @@ export default function Home() {
             {/* Completed tasks section */}
             <div className="flex-1 bg-red-200 rounded-2xl shadow-md p-6 min-h-[75]">
               <div className="flex flex-row text-2xl font-bold mb-4 gap-2">
-                <h2>Completed:</h2>
-                <h2>{`${amountOfCompletedTasks}/10`}</h2>
+                <h2>Completed</h2>
               </div>
               <ul>
                 {deletedTasks.map((task) => (
