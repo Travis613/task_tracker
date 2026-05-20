@@ -2,7 +2,7 @@
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useState } from "react";
-import { Send, Eraser, Delete, PencilLine, InfoIcon } from "lucide-react";
+import { Send, Eraser, Delete, PencilLine } from "lucide-react";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
